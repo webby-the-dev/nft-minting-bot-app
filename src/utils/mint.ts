@@ -27,8 +27,17 @@ export default (
   const wallet = new ethers.Wallet(walletPrivateKey, provider);
   const contract = new ethers.Contract(contractAddress, abi, wallet);
 
+  const getTransactionCount = async () => {
+    startingNonce = await provider.getTransactionCount(
+      wallet.address,
+      "pending"
+    );
+  };
+
   async function main() {
     const saleIsActive = !(await contract[publicMethodName]());
+
+    await getTransactionCount();
 
     if (saleIsActive) {
       clearInterval(timer);
@@ -38,7 +47,7 @@ export default (
       contract[mintMethodName](...mintMethodArguments, {
         gasLimit: GAS_LIMIT,
         gasPrice: GAS_PRICE,
-        nonce: startingNonce + 1,
+        nonce: startingNonce,
         value: (TOKEN_PRICE as any) * amount,
       })
         .then((data: any) => {
@@ -51,8 +60,9 @@ export default (
           }
         })
         .catch((err: any) => {
-          console.log(err);
-          setFeedback(`Error, please try again`);
+          if (!err.message.includes("already known")) {
+            setFeedback(`Error, please try again`);
+          }
         });
     } else {
       setFeedback(`Minting is not live, trying again, ${time} s`);
@@ -66,11 +76,6 @@ export default (
 
   (async () => {
     timer = setInterval(async () => {
-      startingNonce = await provider.getTransactionCount(
-        wallet.address,
-        "pending"
-      );
-
       time += 1;
       main();
     }, INTERVAL);

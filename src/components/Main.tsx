@@ -42,9 +42,9 @@ const Main = () => {
     setFeedback(feedback);
   };
 
-  const handleSetMethodArguments = (value: any) => {
+  const handleSetMethodArguments = (value: any, index: number) => {
     let newArguments: any = [...mintMethodArguments];
-    newArguments = [...newArguments, value];
+    newArguments[index] = value;
 
     setMintMethodArguments(newArguments);
   };
@@ -240,7 +240,7 @@ const Main = () => {
                             marginLeft={2}
                             size="sm"
                             onChange={(e) =>
-                              handleSetMethodArguments(e.target.value)
+                              handleSetMethodArguments(e.target.value, idx)
                             }
                             disabled={
                               feedbackStatus === "minting" ||
