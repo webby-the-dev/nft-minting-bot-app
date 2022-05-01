@@ -8,7 +8,7 @@ npm install
 ```
 
 ### 3.Running
-To mint just simply run 
+To run just simply run 
 
 ```sh
 npm start
