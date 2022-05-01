@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/static/js/main.c7a972dc.js",
-    "static/js/922.5e4540e2.chunk.js": "/static/js/922.5e4540e2.chunk.js",
-    "index.html": "/index.html"
+    "main.js": "/nft-minting-app/static/js/main.aa468503.js",
+    "static/js/922.5e4540e2.chunk.js": "/nft-minting-app/static/js/922.5e4540e2.chunk.js",
+    "index.html": "/nft-minting-app/index.html"
   },
   "entrypoints": [
-    "static/js/main.c7a972dc.js"
+    "static/js/main.aa468503.js"
   ]
 }
