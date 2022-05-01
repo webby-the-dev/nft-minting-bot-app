@@ -21,7 +21,9 @@ const Main = () => {
   const [contractAddress, setContractAddress] = useState<string>("");
   const [abi, setAbi] = useState<any>();
   const [publicMethodName, setPublicMethodName] = useState<string>("");
-  const [methodName, setMethodName] = useState<string>("");
+  const [mintMethodName, setMintMethodName] = useState<string>("");
+  const [mintMethodArguments, setMintMethodArguments] = useState([]);
+  const [price, setPrice] = useState<string>("0");
 
   const [feedback, setFeedback] = useState<string>();
 
@@ -38,6 +40,13 @@ const Main = () => {
 
   const handleSetFeedback = (feedback: string) => {
     setFeedback(feedback);
+  };
+
+  const handleSetMethodArguments = (value: any) => {
+    let newArguments: any = [...mintMethodArguments];
+    newArguments = [...newArguments, value];
+
+    setMintMethodArguments(newArguments);
   };
 
   const feedbackStatus =
@@ -178,22 +187,23 @@ const Main = () => {
                     ))}
                   </Select>
                 </InputGroup>
+
                 <InputGroup
                   display="flex"
                   alignItems="center"
                   margin="0.5rem 0"
                 >
                   <Box width="250px">
-                    <label htmlFor="methodName">
+                    <label htmlFor="mintMethodName">
                       <Text fontSize="sm">Mint method name</Text>
                     </label>
                   </Box>
                   <Select
-                    id="methodName"
+                    id="mintMethodName"
                     marginLeft={2}
                     size="sm"
                     placeholder="Select option"
-                    onChange={(e) => setMethodName(e.target.value)}
+                    onChange={(e) => setMintMethodName(e.target.value)}
                     disabled={
                       feedbackStatus === "minting" ||
                       feedbackStatus === "notLive"
@@ -208,6 +218,64 @@ const Main = () => {
                       ))}
                   </Select>
                 </InputGroup>
+                {mintMethodName
+                  ? abi
+                      .find((x: any) => x.name === mintMethodName)
+                      ?.inputs?.map((item: any, idx: number) => (
+                        <InputGroup
+                          key={idx}
+                          display="flex"
+                          alignItems="center"
+                          margin="0.5rem 0"
+                        >
+                          <Box width="250px">
+                            <label htmlFor="publicMethodName">
+                              <Text fontSize="sm" pl="6">
+                                {item.name}
+                              </Text>
+                            </label>
+                          </Box>
+                          <Input
+                            id="contractAddress"
+                            marginLeft={2}
+                            size="sm"
+                            onChange={(e) =>
+                              handleSetMethodArguments(e.target.value)
+                            }
+                            disabled={
+                              feedbackStatus === "minting" ||
+                              feedbackStatus === "notLive"
+                            }
+                            autoComplete="off"
+                          />
+                        </InputGroup>
+                      ))
+                  : null}
+                {mintMethodName ? (
+                  <InputGroup
+                    display="flex"
+                    alignItems="center"
+                    margin="0.5rem 0"
+                  >
+                    <Box width="250px">
+                      <label htmlFor="price">
+                        <Text fontSize="sm">Price</Text>
+                      </label>
+                    </Box>
+                    <Input
+                      id="price"
+                      marginLeft={2}
+                      size="sm"
+                      onChange={(e) => setPrice(e.target.value)}
+                      disabled={
+                        feedbackStatus === "minting" ||
+                        feedbackStatus === "notLive"
+                      }
+                      type="number"
+                      autoComplete="off"
+                    />
+                  </InputGroup>
+                ) : null}
               </>
             ) : null}
           </>
@@ -238,7 +306,7 @@ const Main = () => {
                   !etherscanApiKey ||
                   !walletPrivateKey ||
                   !contractAddress ||
-                  !methodName ||
+                  !mintMethodName ||
                   feedbackStatus === "minting") &&
                 feedbackStatus !== "error"
               }
@@ -250,7 +318,9 @@ const Main = () => {
                   infuraApiKey,
                   walletPrivateKey,
                   publicMethodName,
-                  methodName,
+                  mintMethodName,
+                  mintMethodArguments,
+                  price,
                   handleSetFeedback
                 )
               }

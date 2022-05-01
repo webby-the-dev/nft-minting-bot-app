@@ -7,14 +7,16 @@ export default (
   infuraApiKey: string,
   walletPrivateKey: string,
   publicMethodName: string,
-  methodName: string,
+  mintMethodName: string,
+  mintMethodArguments: string[],
+  price: string,
   setFeedback: (feedback: string) => void
 ) => {
   const GAS_LIMIT = 2000000;
   const GAS_PRICE = ethers.utils.parseUnits("666", "gwei");
 
   const amount = 1;
-  const TOKEN_PRICE: any = ethers.utils.parseEther("0.001");
+  const TOKEN_PRICE: any = ethers.utils.parseEther(price);
   const INTERVAL = 500;
 
   const provider = new ethers.providers.JsonRpcProvider(
@@ -33,10 +35,10 @@ export default (
 
       setFeedback("Sale is open, trying to mint");
 
-      contract[methodName](amount, {
+      contract[mintMethodName](...mintMethodArguments, {
         gasLimit: GAS_LIMIT,
         gasPrice: GAS_PRICE,
-        // nonce: startingNonce + 1,
+        nonce: startingNonce + 1,
         value: (TOKEN_PRICE as any) * amount,
       })
         .then((data: any) => {
@@ -63,8 +65,12 @@ export default (
   let time = 0;
 
   (async () => {
-    startingNonce = await provider.getTransactionCount(wallet.address);
-    timer = setInterval(() => {
+    timer = setInterval(async () => {
+      startingNonce = await provider.getTransactionCount(
+        wallet.address,
+        "pending"
+      );
+
       time += 1;
       main();
     }, INTERVAL);
