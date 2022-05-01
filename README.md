@@ -1,6 +1,8 @@
 # NFT minting APP 
 This is a visual version of minting bot.
 
+![alt text](https://i.imgur.com/PE2Zz2v.jpg)
+
 ### Demo
 Demo is available [here](https://webbynft.github.io/nft-minting-app/)
 
