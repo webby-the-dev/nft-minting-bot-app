@@ -1,6 +1,6 @@
 {
   "name": "nft-minting-app",
-  "homepage": "https://webbynft.github.io/nft-minting-app/",
+  "homepage": "https://webbynft.github.io/nft-minting-bot-app/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
