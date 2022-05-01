@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@chakra-ui/icons": "^1.1.7",
     "@chakra-ui/react": "^1.8.8",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
@@ -11,8 +12,9 @@
     "@testing-library/user-event": "^12.8.3",
     "@types/jest": "^25.2.3",
     "@types/node": "^12.20.50",
-    "@types/react": "^16.14.25",
-    "@types/react-dom": "^16.9.15",
+    "axios": "^0.27.2",
+    "colors": "^1.4.0",
+    "ethers": "^5.6.4",
     "framer-motion": "^4.1.17",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
@@ -41,5 +43,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/react": "^16.14.25",
+    "@types/react-dom": "^18.0.3"
   }
 }
